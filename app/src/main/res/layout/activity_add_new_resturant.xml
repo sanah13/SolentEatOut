@@ -16,7 +16,7 @@
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal|numberSigned"
+            android:inputType="text"
             android:id="@+id/et1"
             />
     </LinearLayout>
@@ -34,7 +34,7 @@
             android:id="@+id/et2"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal|numberSigned"
+            android:inputType="text"
             />
     </LinearLayout>
     <LinearLayout
@@ -44,14 +44,14 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv2"
+            android:id="@+id/tv3"
             android:text ="Cuisine"
             />
         <EditText
-            android:id="@+id/et2"
+            android:id="@+id/et3"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal|numberSigned"
+            android:inputType="text"
             />
     </LinearLayout>
     <LinearLayout
@@ -61,14 +61,14 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv2"
+            android:id="@+id/tv4"
             android:text ="rating"
             />
         <EditText
-            android:id="@+id/et2"
+            android:id="@+id/et4"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal|numberSigned"
+            android:inputType="text"
             />
     </LinearLayout>
     <Button android:layout_width="400dp"
@@ -76,4 +76,18 @@
         android:id="@+id/btn1"
         android:text="Add Resturant"
         />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <org.osmdroid.views.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:enabled="true"
+            android:clickable="true"
+            android:id="@+id/map1"
+            tilesource="Mapnik"
+            />
+    </LinearLayout>
 </LinearLayout>

@@ -5,32 +5,67 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.Polyline;
 
-public class MainActivity extends AppCompatActivity implements LocationListener
-{
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements  LocationListener {
     MapView mv;
+    ItemizedIconOverlay<OverlayItem> items;
+    ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerGestureListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        LocationManager mgr=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
-
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.activity_main);
-        mv = (MapView)findViewById(R.id.map1);
+        mv = (MapView) findViewById(R.id.map1);
         mv.setBuiltInZoomControls(true);
         mv.getController().setZoom(16);
+        mv.getController().setCenter(new GeoPoint(51.05, -1.404351));
+
+        Items= new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(),null);
+        OverlayItem name = new OverlayItem((EditText) findViewById(R.id.et1),(EditText) findViewById(R.id.et2),(EditText) findViewById(R.id.et3),(EditText) findViewById(R.id.et4), new GeoPoint())
+
+
+    LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+       Location location = locationManager.getLast
+        if (location != null) {
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+
+
+            // Get longitude of the current location
+
+            String userId = "O6pGXcJy3C";
+            //String username = "Nick";
+            ParseObject globeobject = new ParseObject("global");
+            globeobject.put("username","Alana");
+
+            globeobject.put("userID",userId);
+
+            final ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
+            globeobject.put("Location", point);
+
+        mv.getOverlays().add(items);
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
