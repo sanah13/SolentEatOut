@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/AddNewResturant"
+        android:title="Add New Resturant" />
+    <item
+        android:id="@+id/preferences"
+        android:title="Preferences" />
+    <item
+        android:id="@+id/LoadFromFile"
+        android:title="Load From File"/>
+    <item
+        android:id="@+id/LoadFromWeb"
+        android:title="Load From Web"/>
+</menu>
