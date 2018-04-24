@@ -22,7 +22,11 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static android.R.attr.name;
+import static android.R.attr.rating;
 
 public class MainActivity extends AppCompatActivity implements  LocationListener {
     MapView mv;
@@ -37,33 +41,24 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
         mv.setBuiltInZoomControls(true);
         mv.getController().setZoom(16);
         mv.getController().setCenter(new GeoPoint(51.05, -1.404351));
-
-        Items= new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(),null);
-        OverlayItem name = new OverlayItem((EditText) findViewById(R.id.et1),(EditText) findViewById(R.id.et2),(EditText) findViewById(R.id.et3),(EditText) findViewById(R.id.et4), new GeoPoint())
-
-
-    LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerGestureListener);
+        EditText name = (EditText) findViewById(R.id.et1);
+        EditText address = (EditText) findViewById(R.id.et2);
+        EditText cuisine = (EditText) findViewById(R.id.et3);
+        EditText rating = (EditText) findViewById(R.id.et4);
+        LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-       Location location = locationManager.getLast
-        if (location != null) {
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
+        try {
+            double lat = 51.05;
+            double lon = -1.40435;
 
-
-            // Get longitude of the current location
-
-            String userId = "O6pGXcJy3C";
-            //String username = "Nick";
-            ParseObject globeobject = new ParseObject("global");
-            globeobject.put("username","Alana");
-
-            globeobject.put("userID",userId);
-
-            final ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
-            globeobject.put("Location", point);
-
-        mv.getOverlays().add(items);
+            OverlayItem newResturant = new OverlayItem(name,address,cuisine,rating, new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)));
+            items.addItems(newResturant);
+            mv.getOverlays().add(items);
+        } catch (IOException e) {
+            System.out.println("error");
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -36,30 +36,6 @@ public class AddNewResturantActivity extends AppCompatActivity implements View.O
             return true;
         }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.AddNewResturant) {
-            Intent intent = new Intent(this, AddNewResturantActivity.class);
-            startActivityForResult(intent, 0);
-            return true;
-        }
-        if (item.getItemId() == R.id.preferences) {
-            Intent intent = new Intent(this, PrefsActivity.class);
-            startActivityForResult(intent, 1);
-            return true;
-        }
-
-        if (item.getItemId() == R.id.LoadFromFile) {
-            Intent intent = new Intent(this, LoadFromFileActivity.class);
-            startActivityForResult(intent, 2);
-            return true;
-        }
-        if (item.getItemId() == R.id.LoadFromWeb) {
-            Intent intent = new Intent(this, LoadFromFileActivity.class);
-            startActivityForResult(intent, 3);
-            return true;
-        }
-        return false;
-    }
 
     public void onClick(View view) {
 
@@ -75,6 +51,7 @@ public class AddNewResturantActivity extends AppCompatActivity implements View.O
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }
 
 
