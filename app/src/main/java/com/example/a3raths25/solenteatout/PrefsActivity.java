@@ -11,6 +11,4 @@ public class PrefsActivity {   public void onCreate (Bundle savedInstanceState)
     super.onCreate(savedInstanceState);
     addPreferencesFromResource(R.xml.preferences);
 }
-
-
 }

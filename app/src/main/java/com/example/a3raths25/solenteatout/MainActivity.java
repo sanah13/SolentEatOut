@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
             System.out.println("error");
         }
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);

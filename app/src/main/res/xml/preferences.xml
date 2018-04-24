@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
         <EditTextPreference
             android:key="lat"
             android:title="Save to file"
             android:summary="Save all new added resturants to file." />
         <EditTextPreference
-            android:defaultValue="15"
-            android:key="zoomLevel"
-            android:summary="set the zoom level"
-            android:title="ZoomLevel"/>
+            android:key="lat"
+            android:title="Save to Web"
+            android:summary="Save all new added resturants to Web." />
         <CheckBoxPreference
             android:key="autodownload"
             android:defaultValue="true"
-            android:title="Auto-download"
-             />
+            android:title="Auto-download" />
     </PreferenceScreen>

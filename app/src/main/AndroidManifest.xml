@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".AddNewResturantActivity">
         </activity>
+        <activity android:name=".PrefsActivity">
+        </activity>
     </application>
 
 </manifest>

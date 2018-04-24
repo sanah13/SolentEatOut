@@ -1,10 +1,14 @@
 package com.example.a3raths25.solenteatout;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Intent;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +20,10 @@ import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by 3RATHS25 on 19/04/2018.
@@ -37,21 +45,24 @@ public class AddNewResturantActivity extends AppCompatActivity implements View.O
         }
 
 
-    public void onClick(View view) {
+    public void onClick(View view) {}
 
-        EditText name = (EditText) findViewById(R.id.et1);
-        EditText address = (EditText) findViewById(R.id.et2);
-        EditText cuisine = (EditText) findViewById(R.id.et3);
-        EditText rating = (EditText) findViewById(R.id.et4);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.getString("filename");
+        if (item.getItemId() == R.id.save) {
 
-        Bundle bundle = new Bundle();
-
-        Intent intent = new Intent();
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
+            try {
+                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/notepad.txt"));
+                EditText et1 = (EditText) findViewById(R.id.et1);
+                pw.write(et1.getText().toString());
+                pw.close();
+            } catch (IOException e) {
+                new AlertDialog.Builder(this).setPositiveButton("OK", null).
+                        setMessage("ERROR: " + e).show();
+            }
+            return true;
+        }
 }
 
 
