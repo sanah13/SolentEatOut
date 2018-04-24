@@ -31,29 +31,32 @@ import java.io.PrintWriter;
 
 public class AddNewResturantActivity extends AppCompatActivity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
+        EditText name = (EditText) findViewById(R.id.et1);
+        EditText address = (EditText) findViewById(R.id.et2);
+        EditText cuisine = (EditText) findViewById(R.id.et3);
+        EditText rating = (EditText) findViewById(R.id.et4);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_resturant);
 
         Button go_button = (Button) findViewById(R.id.btn1);
         go_button.setOnClickListener(this);
     }
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu, menu);
-            return true;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
 
-
-    public void onClick(View view) {}
-
+    public void onClick(View view) {
+    }
     public boolean onOptionsItemSelected(MenuItem item) {
-        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        prefs.getString("filename");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.getString("NewResturants");
         if (item.getItemId() == R.id.save) {
 
             try {
-                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +"/notepad.txt"));
+                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/notepad.txt"));
                 EditText et1 = (EditText) findViewById(R.id.et1);
                 pw.write(et1.getText().toString());
                 pw.close();
@@ -63,6 +66,7 @@ public class AddNewResturantActivity extends AppCompatActivity implements View.O
             }
             return true;
         }
+    }
 }
 
 

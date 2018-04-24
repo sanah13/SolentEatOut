@@ -30,6 +30,8 @@ import static android.R.attr.rating;
 
 public class MainActivity extends AppCompatActivity implements  LocationListener {
     MapView mv;
+    double lat = 51.05;
+    double lon = -1.40435;
     ItemizedIconOverlay<OverlayItem> items;
     ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerGestureListener;
     @Override
@@ -50,9 +52,6 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
         mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         try {
-            double lat = 51.05;
-            double lon = -1.40435;
-
             OverlayItem newResturant = new OverlayItem(name,address,cuisine,rating, new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)));
             items.addItems(newResturant);
             mv.getOverlays().add(items);
