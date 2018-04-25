@@ -58,29 +58,29 @@ public class AddNewResturantActivity extends AppCompatActivity implements View.O
 
         Intent intent = new Intent();
         intent.putExtras(bundle);
-        startActivity(intent);
+        setResult(RESULT_OK, intent);
         finish();
     }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        prefs.getString("NewResturant");{
-                try {
-                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"));
-                    EditText name = (EditText) findViewById(et1);
-                    EditText address = (EditText) findViewById(et2);
-                    EditText cuisine = (EditText) findViewById(et3);
-                    EditText rating = (EditText) findViewById(et4);
-                    pw.write(name.getText().toString());
-                    pw.write(address.getText().toString());
-                    pw.write(cuisine.getText().toString());
-                    pw.write(rating.getText().toString());
-                    pw.close();
-                } catch (IOException e) {
-                    new AlertDialog.Builder(this).setPositiveButton("OK", null).
-                            setMessage("ERROR: " + e).show();
-                }
-                return true;
-            }
-        }
-    }
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        prefs.getString("NewResturant");{
+//                try {
+//                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"));
+//                    EditText name = (EditText) findViewById(et1);
+//                    EditText address = (EditText) findViewById(et2);
+//                    EditText cuisine = (EditText) findViewById(et3);
+//                    EditText rating = (EditText) findViewById(et4);
+//                    pw.write(name.getText().toString());
+//                    pw.write(address.getText().toString());
+//                    pw.write(cuisine.getText().toString());
+//                    pw.write(rating.getText().toString());
+//                    pw.close();
+//                } catch (IOException e) {
+//                    new AlertDialog.Builder(this).setPositiveButton("OK", null).
+//                            setMessage("ERROR: " + e).show();
+//                }
+//                return true;
+//            }
+//        }
+//    }
 }

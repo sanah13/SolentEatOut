@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.activity_main);
         mv = (MapView) findViewById(R.id.map1);
@@ -51,19 +52,30 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
 
         items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerGestureListener);
         LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        mv.getOverlays().add(items);
-    }
-    public void onClick(View view) {
-        try
-        {
-            OverlayItem newResturant = new OverlayItem(et1,et2,et3,et4,(new GeoPoint(newLoc.getLatitude(), newLoc.getLongitude())));
-            items.addItems(newResturant);
-        } catch(
-                IOException e) {
-            System.out.println("error");
+        try {
+            mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+        catch(SecurityException e) {
+
         }
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = intent.getExtras();
+
+                String name = extras.getString("name");
+                String address= extras.getString("address");
+
+                OverlayItem newResturant = new OverlayItem("name", "address", new GeoPoint(lat, lon));
+                items.addItem(newResturant);
+                mv.getOverlays().add(items);
+
+            }
+        }
+    }
     public void onLocationChanged(Location newLoc) {
         Toast.makeText
                 (this, "Location=" +
@@ -71,7 +83,28 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
                         newLoc.getLongitude(), Toast.LENGTH_LONG).show();
         mv.getController().setCenter(new GeoPoint(newLoc.getLatitude(), newLoc.getLongitude()));
 
-}
+        lat = newLoc.getLatitude();
+        lon = newLoc.getLongitude();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    public void onClick(View view) {
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
