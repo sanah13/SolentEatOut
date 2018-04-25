@@ -27,6 +27,10 @@ import java.util.ArrayList;
 
 import static android.R.attr.name;
 import static android.R.attr.rating;
+import static com.example.a3raths25.solenteatout.R.id.et1;
+import static com.example.a3raths25.solenteatout.R.id.et2;
+import static com.example.a3raths25.solenteatout.R.id.et3;
+import static com.example.a3raths25.solenteatout.R.id.et4;
 
 public class MainActivity extends AppCompatActivity implements  LocationListener {
     MapView mv;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
     double lon = -1.40435;
     ItemizedIconOverlay<OverlayItem> items;
     ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerGestureListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,41 +48,51 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
         mv.setBuiltInZoomControls(true);
         mv.getController().setZoom(16);
         mv.getController().setCenter(new GeoPoint(51.05, -1.404351));
+
         items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerGestureListener);
-        EditText name = (EditText) findViewById(R.id.et1);
-        EditText address = (EditText) findViewById(R.id.et2);
-        EditText cuisine = (EditText) findViewById(R.id.et3);
-        EditText rating = (EditText) findViewById(R.id.et4);
         LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        try {
-            OverlayItem newResturant = new OverlayItem(name,address,cuisine,rating, new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)));
+        mv.getOverlays().add(items);
+    }
+    public void onClick(View view) {
+        try
+        {
+            OverlayItem newResturant = new OverlayItem(et1,et2,et3,et4,(new GeoPoint(newLoc.getLatitude(), newLoc.getLongitude())));
             items.addItems(newResturant);
-            mv.getOverlays().add(items);
-        } catch (IOException e) {
+        } catch(
+                IOException e) {
             System.out.println("error");
         }
-    }
+
+    public void onLocationChanged(Location newLoc) {
+        Toast.makeText
+                (this, "Location=" +
+                        newLoc.getLatitude() + " " +
+                        newLoc.getLongitude(), Toast.LENGTH_LONG).show();
+        mv.getController().setCenter(new GeoPoint(newLoc.getLatitude(), newLoc.getLongitude()));
+
+}
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.AddNewResturant) {
-            Intent intent = new Intent(this,AddNewResturantActivity.class);
+            Intent intent = new Intent(this, AddNewResturantActivity.class);
             startActivityForResult(intent, 0);
             return true;
         }
         if (item.getItemId() == R.id.preferences) {
-            Intent intent = new Intent(this,PrefsActivity .class);
+            Intent intent = new Intent(this, PrefsActivity.class);
             startActivityForResult(intent, 1);
             return true;
         }
 
         if (item.getItemId() == R.id.LoadFromFile) {
-            Intent intent = new Intent(this,LoadFromFileActivity .class);
+            Intent intent = new Intent(this, LoadFromFileActivity.class);
             startActivityForResult(intent, 2);
             return true;
         }
@@ -87,26 +102,6 @@ public class MainActivity extends AppCompatActivity implements  LocationListener
             return true;
         }
         return false;
-    }
-    public void onLocationChanged(Location newLoc) {
-        Toast.makeText
-                (this, "Location=" +
-                        newLoc.getLatitude() + " " +
-                        newLoc.getLongitude(), Toast.LENGTH_LONG).show();
-        mv.getController().setCenter(new GeoPoint(newLoc.getLatitude(), newLoc.getLongitude()));
-    }
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(this, "Provider " + provider +
-                " disabled", Toast.LENGTH_LONG).show();
-    }
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Provider " + provider +
-                " enabled", Toast.LENGTH_LONG).show();
-    }
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        Toast.makeText(this, "Status changed: " + status,
-                Toast.LENGTH_LONG).show();
     }
 }
 
