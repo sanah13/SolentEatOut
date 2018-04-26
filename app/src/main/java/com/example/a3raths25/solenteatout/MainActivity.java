@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
 
-            for ()
+            for (items.addItem(newResturant);)
 
 //            try {
 //            PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv");
