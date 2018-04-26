@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-        <EditTextPreference
-            android:key="lat"
-            android:title="Save to file"
-            android:summary="Save all new added resturants to file." />
-        <EditTextPreference
-            android:key="lat"
-            android:title="Save to Web"
-            android:summary="Save all new added resturants to Web." />
         <CheckBoxPreference
-            android:key="autodownload"
-            android:defaultValue="true"
-            android:title="Auto-download" />
+            android:key="saveToFile"
+            android:summary="Save all new added resturants to file."
+            android:title="Save to file"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="saveToWeb"
+            android:title="Save to Web"
+            android:summary="Save all new added resturants to Web."
+            android:defaultValue="true" />
     </PreferenceScreen>

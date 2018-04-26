@@ -76,18 +76,4 @@
         android:id="@+id/btn1"
         android:text="Add Resturant"
         />
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <org.osmdroid.views.MapView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:enabled="true"
-            android:clickable="true"
-            android:id="@+id/map1"
-            tilesource="Mapnik"
-            />
-    </LinearLayout>
 </LinearLayout>

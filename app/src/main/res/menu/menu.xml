@@ -4,6 +4,9 @@
         android:id="@+id/AddNewResturant"
         android:title="Add New Resturant" />
     <item
+        android:id="@+id/SaveAllAddedResturantsToFile"
+        android:title="Save all resturants to file" />
+    <item
         android:id="@+id/preferences"
         android:title="Preferences" />
     <item
