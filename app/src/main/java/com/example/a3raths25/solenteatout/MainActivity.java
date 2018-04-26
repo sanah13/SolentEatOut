@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return true;
         }
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
-            OverlayItem
+
 
             //newResturant.getTitle() - gives the title
             // newResturant.getSnippet() - gives the description
