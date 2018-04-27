@@ -144,9 +144,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         OverlayItem oitem = items.getItem(i);
                         System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
                         PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
-                        pw.write(oitem.getTitle() + ",");
-                        pw.write(oitem.getSnippet() + ",");
-                        pw.write(oitem.getPoint() + "," + "\n");
+                        pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "," + "\n");
                         pw.close();
                     }
                 }catch (IOException e) {
