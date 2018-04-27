@@ -1,6 +1,7 @@
 package com.example.a3raths25.solenteatout;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -30,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.a3raths25.solenteatout.R.id.et1;
 import static com.example.a3raths25.solenteatout.R.id.et2;
@@ -129,17 +132,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
 
-            for (items.addItem(newResturant);)
+            for (
 
-//            try {
 //            PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv");
-//
-
             //newResturant.getTitle() - gives the title
             // newResturant.getSnippet() - gives the description
             //items.getItem(index) - gives the item at position 'index' within the overlay
             // items.size() - number of OverlayItems on the overlay.
-
 
             return true;
         }
