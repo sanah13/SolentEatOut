@@ -140,14 +140,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
             //if (items.size() > 0) {
                 try {
+                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
                     for (int i = 0; i < items.size(); i++) {
                         OverlayItem oitem = items.getItem(i);
                         System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
-                        PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
                         pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "," + "\n");
-                        pw.close();
                     }
-                }catch (IOException e) {
+                    pw.close();
+                }
+                catch (IOException e) {
                     new AlertDialog.Builder(this).setPositiveButton("OK", null).
                             setMessage("ERROR: " + e).show();
                 }
