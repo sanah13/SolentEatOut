@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 try {
                     PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
                     pw.write(name + ",");
-                    pw.write(address+ ",");
-                    pw.write(cuisine+ ",");
+                    pw.write(address + ",");
+                    pw.write(cuisine + ",");
                     pw.write(rating);
                     pw.close();
                 } catch (IOException e) {
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }
     }
+
     public void onLocationChanged(Location newLoc) {
         Toast.makeText
                 (this, "Location=" +
@@ -110,43 +111,54 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
     }
+
     @Override
     public void onProviderEnabled(String s) {
     }
+
     @Override
     public void onProviderDisabled(String s) {
     }
+
     public void onClick(View view) {
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item, OverlayItem newResturant) {
-        overlayItemArray= new Array
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println("please just63363 work");
         if (item.getItemId() == R.id.AddNewResturant) {
+            System.out.println("please just work");
             Intent intent = new Intent(this, AddNewResturantActivity.class);
             startActivityForResult(intent, 0);
             return true;
         }
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
-            if (items.size()>0){
-                for(OverlayItem items :newResturant ){
-                    newResturant.getTitle();
-                    newResturant.getSnippet();
-
+            //if (items.size() > 0) {
+                try {
+                    for (int i = 0; i < items.size(); i++) {
+                        OverlayItem oitem = items.getItem(i);
+                        System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
+                        PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
+                        pw.write(oitem.getTitle() + ",");
+                        pw.write(oitem.getSnippet() + ",");
+                        pw.write(oitem.getPoint() + "," + "\n");
+                        pw.close();
+                    }
+                }catch (IOException e) {
+                    new AlertDialog.Builder(this).setPositiveButton("OK", null).
+                            setMessage("ERROR: " + e).show();
                 }
-            }
 
 //            PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv");
             //newResturant.getTitle() - gives the title
             // newResturant.getSnippet() - gives the description
             //items.getItem(index) - gives the item at position 'index' within the overlay
             // items.size() - number of OverlayItems on the overlay.
-
             return true;
         }
         if (item.getItemId() == R.id.preferences) {
@@ -165,6 +177,4 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return true;
         }
         return false;
-    }
-}
-
+    }}
