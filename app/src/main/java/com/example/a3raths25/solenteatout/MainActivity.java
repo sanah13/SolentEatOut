@@ -124,15 +124,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item, OverlayItem newResturant) {
+        overlayItemArray= new Array
+
         if (item.getItemId() == R.id.AddNewResturant) {
             Intent intent = new Intent(this, AddNewResturantActivity.class);
             startActivityForResult(intent, 0);
             return true;
         }
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
+            if (items.size()>0){
+                for(OverlayItem items :newResturant ){
+                    newResturant.getTitle();
+                    newResturant.getSnippet();
 
-            for (
+                }
+            }
 
 //            PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv");
             //newResturant.getTitle() - gives the title
