@@ -148,105 +148,99 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
             //if (items.size() > 0) {
 
-                try {
-                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
-                    for (int i = 0; i < items.size(); i++) {
-                        OverlayItem oitem = items.getItem(i);
-                        System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
-                        pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "," + "\n");
-                    }
-                    pw.close();
-                }
-                catch (IOException e) {
-                    new AlertDialog.Builder(this).setPositiveButton("OK", null).
-                            setMessage("ERROR: " + e).show();
-
             try {
-                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"));
+                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
                 for (int i = 0; i < items.size(); i++) {
                     OverlayItem oitem = items.getItem(i);
                     System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
-                    pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "\n");
-
+                    pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "," + "\n");
                 }
                 pw.close();
             } catch (IOException e) {
                 new AlertDialog.Builder(this).setPositiveButton("OK", null).
                         setMessage("ERROR: " + e).show();
-            }
+
+                try {
+                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"));
+                    for (int i = 0; i < items.size(); i++) {
+                        OverlayItem oitem = items.getItem(i);
+                        System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
+                        pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "\n");
+
+                    }
+                    pw.close();
+                } catch (IOException e2) {
+                    new AlertDialog.Builder(this).setPositiveButton("OK", null).
+                            setMessage("ERROR: " + e2).show();
+                }
 
 //            PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv");
-            //newResturant.getTitle() - gives the title
-            // newResturant.getSnippet() - gives the description
-            //items.getItem(index) - gives the item at position 'index' within the overlay
-            // items.size() - number of OverlayItems on the overlay.
-            return true;
-        }
-        if (item.getItemId() == R.id.preferences) {
-            Intent intent = new Intent(this, PrefsActivity.class);
-            startActivityForResult(intent, 1);
-            return true;
-        }
-        if (item.getItemId() == R.id.LoadFromFile) {
-            BufferedReader reader = null;
-            String line;
-            try {
-                String filepath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt";
-                File file = new File(filepath);
-                reader = new BufferedReader(new FileReader(filepath));
-                while ((line = reader.readLine()) != null) {
-                    String[] components = line.split(",");
-                    if (components.length >= 4) {
-                        try {
-                            double lon = Double.parseDouble(components[3]);
-                            double lat = Double.parseDouble(components[2]);
+                //newResturant.getTitle() - gives the title
+                // newResturant.getSnippet() - gives the description
+                //items.getItem(index) - gives the item at position 'index' within the overlay
+                // items.size() - number of OverlayItems on the overlay.
+                return true;
+            }
+            if (item.getItemId() == R.id.preferences) {
+                Intent intent = new Intent(this, PrefsActivity.class);
+                startActivityForResult(intent, 1);
+                return true;
+            }
+            if (item.getItemId() == R.id.LoadFromFile) {
+                BufferedReader reader = null;
+                String line;
+                try {
+                    String filepath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt";
+                    File file = new File(filepath);
+                    reader = new BufferedReader(new FileReader(filepath));
+                    while ((line = reader.readLine()) != null) {
+                        String[] components = line.split(",");
+                        if (components.length >= 4) {
+                            try {
+                                double lon = Double.parseDouble(components[3]);
+                                double lat = Double.parseDouble(components[2]);
 
-                            OverlayItem oitem = new OverlayItem(components[0], components[1], new GeoPoint(lat, lon));
-                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + oitem);
-                            items.addItem(oitem);
-                        } catch (NumberFormatException e) {
-                            System.out.println("error parsing file" + e);
+                                OverlayItem oitem = new OverlayItem(components[0], components[1], new GeoPoint(lat, lon));
+                                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + oitem);
+                                items.addItem(oitem);
+                            } catch (NumberFormatException e) {
+                                System.out.println("error parsing file" + e);
+                            }
                         }
                     }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (reader != null)
-                        reader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        if (reader != null)
+                            reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            mv.getOverlays().add(items);
-            return true;
-
+                mv.getOverlays().add(items);
+                return true;
+//
 //            if (item.getItemId() == R.id.LoadFromWeb) {
-//
-//
-////                HttpURLConnection conn = null;
-////                try {
-////                    String Rmarker = URLEncoder.encode(data[0], "UTF-8");
-////                    URL url = new URL("http://www.free-map.org.uk/course/mad/ws/get.php?year=18&username=user002&format=json" + Rmarker);
-////                    conn = (HttpURLConnection) url.openConnection();
-////                    InputStream in = conn.getInputStream();
-////                    if (conn.getResponseCode() == 200) {
-////                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-////                        String result = "", line;
-////                        while ((line = br.readLine()) != null) {
-////                            result += line;
-////                        }
+//                HttpURLConnection conn = null;
+//              try {
+//                   String Rmarker = URLEncoder.encode(data[0], "UTF-8");
+//                   URL url = new URL("http://www.free-map.org.uk/course/mad/ws/get.php?year=18&username=user002&format=json" + Rmarker);
+//                    conn = (HttpURLConnection) url.openConnection();                 InputStream in = conn.getInputStream();
+//                   if (conn.getResponseCode() == 200) {
+//                       BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//                       String result = "", line;
+//                      while ((line = br.readLine()) != null) {
+//                          result += line;
+//                      }
 ////
-//return true;
-////                    }
-////                }
-//            }
-//        }
+                //eturn true;
+//                    }
+//                }
+            }
 
-        }
-        return false;
-    }
+    } return false;
+}
 
     public void onResume() {
         super.onResume();
