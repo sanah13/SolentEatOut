@@ -28,6 +28,10 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -83,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 mv.getOverlays().add(items);
                 try {
-                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
+                    PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"), true);
                     pw.write(name + ",");
                     pw.write(address + ",");
                     pw.write(cuisine + ",");
@@ -130,15 +134,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        System.out.println("please just63363 work");
         if (item.getItemId() == R.id.AddNewResturant) {
-            System.out.println("please just work");
             Intent intent = new Intent(this, AddNewResturantActivity.class);
             startActivityForResult(intent, 0);
             return true;
         }
         if (item.getItemId() == R.id.SaveAllAddedResturantsToFile) {
             //if (items.size() > 0) {
+
                 try {
                     PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv"), true);
                     for (int i = 0; i < items.size(); i++) {
@@ -151,7 +154,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 catch (IOException e) {
                     new AlertDialog.Builder(this).setPositiveButton("OK", null).
                             setMessage("ERROR: " + e).show();
+
+            try {
+                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"));
+                for (int i = 0; i < items.size(); i++) {
+                    OverlayItem oitem = items.getItem(i);
+                    System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
+                    pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "\n");
+
                 }
+                pw.close();
+            } catch (IOException e) {
+                new AlertDialog.Builder(this).setPositiveButton("OK", null).
+                        setMessage("ERROR: " + e).show();
+            }
 
 //            PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.csv");
             //newResturant.getTitle() - gives the title
@@ -166,14 +182,55 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return true;
         }
         if (item.getItemId() == R.id.LoadFromFile) {
-            Intent intent = new Intent(this, LoadFromFileActivity.class);
-            startActivityForResult(intent, 2);
+            BufferedReader reader = null;
+            String line;
+            try {
+                String filepath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt";
+                File file = new File(filepath);
+                reader = new BufferedReader(new FileReader(filepath));
+                while ((line = reader.readLine()) != null) {
+                    String[] components = line.split(",");
+                    if (components.length >= 4) {
+                        try {
+
+                            double lon = Double.parseDouble(components[3]);
+                            double lat = Double.parseDouble(components[2]);
+
+                            OverlayItem oitem = new OverlayItem(components[0], components[1], new GeoPoint(lat, lon));
+                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + oitem);
+                            items.addItem(oitem);
+                        } catch (NumberFormatException e) {
+                            System.out.println("error parsing file" + e);
+                        }
+                    }
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (reader != null)
+                        reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            mv.getOverlays().add(items);
             return true;
+
+//                if (item.getItemId() == R.id.LoadFromWeb) {
+//
+//                    return true;
+//                }
         }
-        if (item.getItemId() == R.id.LoadFromWeb) {
-            Intent intent = new Intent(this, LoadFromFileActivity.class);
-            startActivityForResult(intent, 3);
-            return true;
-        }
+
         return false;
-    }}
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.commit();
+    }
+}
