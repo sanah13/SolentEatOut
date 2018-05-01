@@ -34,7 +34,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     double lon = -1.40435;
     ItemizedIconOverlay<OverlayItem> items;
     ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerGestureListener;
+    boolean doNotReadPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     String[] components = line.split(",");
                     if (components.length >= 4) {
                         try {
-
                             double lon = Double.parseDouble(components[3]);
                             double lat = Double.parseDouble(components[2]);
 
@@ -204,8 +209,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         }
                     }
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 try {
@@ -218,13 +222,51 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             mv.getOverlays().add(items);
             return true;
 
-//                if (item.getItemId() == R.id.LoadFromWeb) {
+//            if (item.getItemId() == R.id.LoadFromWeb) {
 //
-//                    return true;
-//                }
-        }
+//
+////                HttpURLConnection conn = null;
+////                try {
+////                    String Rmarker = URLEncoder.encode(data[0], "UTF-8");
+////                    URL url = new URL("http://www.free-map.org.uk/course/mad/ws/get.php?year=18&username=user002&format=json" + Rmarker);
+////                    conn = (HttpURLConnection) url.openConnection();
+////                    InputStream in = conn.getInputStream();
+////                    if (conn.getResponseCode() == 200) {
+////                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+////                        String result = "", line;
+////                        while ((line = br.readLine()) != null) {
+////                            result += line;
+////                        }
+////
+//return true;
+////                    }
+////                }
+//            }
+//        }
 
+        }
         return false;
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (doNotReadPreferences == false) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            mv.getController().setZoom(16);
+            mv.getController().setCenter(new GeoPoint(51.05, -1.404351));
+            try {
+                PrintWriter pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/NewResturants.txt"));
+                for (int i = 0; i < items.size(); i++) {
+                    OverlayItem oitem = items.getItem(i);
+                    System.out.println(oitem.getTitle() + oitem.getSnippet() + oitem.getPoint());
+                    pw.write(oitem.getTitle() + "," + oitem.getSnippet() + "," + oitem.getPoint() + "\n");
+                }
+                pw.close();
+            } catch (IOException e) {
+                new AlertDialog.Builder(this).setPositiveButton("OK", null).
+                        setMessage("ERROR: " + e).show();
+            }
+        }
     }
 
     public void onDestroy() {
