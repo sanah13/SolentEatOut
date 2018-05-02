@@ -5,9 +5,4 @@
             android:summary="Save all new added resturants to file."
             android:title="Save to file"
             android:defaultValue="true" />
-        <CheckBoxPreference
-            android:key="saveToWeb"
-            android:title="Save to Web"
-            android:summary="Save all new added resturants to Web."
-            android:defaultValue="true" />
     </PreferenceScreen>
